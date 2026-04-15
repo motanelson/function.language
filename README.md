@@ -1,3 +1,1 @@
-# function.languange
-function separater
-
+ANTLR to a c compilers
