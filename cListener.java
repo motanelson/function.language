@@ -17,25 +17,15 @@ public interface cListener extends ParseTreeListener {
 	 */
 	void exitCompilationUnit(cParser.CompilationUnitContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link cParser#declaration}.
+	 * Enter a parse tree produced by {@link cParser#externalDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaration(cParser.DeclarationContext ctx);
+	void enterExternalDeclaration(cParser.ExternalDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link cParser#declaration}.
+	 * Exit a parse tree produced by {@link cParser#externalDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaration(cParser.DeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link cParser#initDeclarator}.
-	 * @param ctx the parse tree
-	 */
-	void enterInitDeclarator(cParser.InitDeclaratorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link cParser#initDeclarator}.
-	 * @param ctx the parse tree
-	 */
-	void exitInitDeclarator(cParser.InitDeclaratorContext ctx);
+	void exitExternalDeclaration(cParser.ExternalDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link cParser#typeSpecifier}.
 	 * @param ctx the parse tree
@@ -47,6 +37,46 @@ public interface cListener extends ParseTreeListener {
 	 */
 	void exitTypeSpecifier(cParser.TypeSpecifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link cParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaration(cParser.DeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaration(cParser.DeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#initDeclaratorList}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitDeclaratorList(cParser.InitDeclaratorListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#initDeclaratorList}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitDeclaratorList(cParser.InitDeclaratorListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitDeclarator(cParser.InitDeclaratorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#initDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitDeclarator(cParser.InitDeclaratorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#initializer}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitializer(cParser.InitializerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#initializer}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitializer(cParser.InitializerContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link cParser#declarator}.
 	 * @param ctx the parse tree
 	 */
@@ -56,6 +86,26 @@ public interface cListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclarator(cParser.DeclaratorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#pointer}.
+	 * @param ctx the parse tree
+	 */
+	void enterPointer(cParser.PointerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#pointer}.
+	 * @param ctx the parse tree
+	 */
+	void exitPointer(cParser.PointerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#directDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void enterDirectDeclarator(cParser.DirectDeclaratorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#directDeclarator}.
+	 * @param ctx the parse tree
+	 */
+	void exitDirectDeclarator(cParser.DirectDeclaratorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link cParser#functionDefinition}.
 	 * @param ctx the parse tree
@@ -96,6 +146,16 @@ public interface cListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompoundStatement(cParser.CompoundStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cParser#blockItem}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockItem(cParser.BlockItemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#blockItem}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockItem(cParser.BlockItemContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link cParser#statement}.
 	 * @param ctx the parse tree
@@ -167,6 +227,16 @@ public interface cListener extends ParseTreeListener {
 	 */
 	void exitAssignmentExpression(cParser.AssignmentExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link cParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentOperator(cParser.AssignmentOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentOperator(cParser.AssignmentOperatorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link cParser#logicalOrExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -237,6 +307,16 @@ public interface cListener extends ParseTreeListener {
 	 */
 	void exitUnaryExpression(cParser.UnaryExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link cParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixExpression(cParser.PostfixExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cParser#postfixExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixExpression(cParser.PostfixExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link cParser#primaryExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -247,23 +327,13 @@ public interface cListener extends ParseTreeListener {
 	 */
 	void exitPrimaryExpression(cParser.PrimaryExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link cParser#functionCall}.
+	 * Enter a parse tree produced by {@link cParser#argumentExpressionList}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionCall(cParser.FunctionCallContext ctx);
+	void enterArgumentExpressionList(cParser.ArgumentExpressionListContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link cParser#functionCall}.
+	 * Exit a parse tree produced by {@link cParser#argumentExpressionList}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionCall(cParser.FunctionCallContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link cParser#argumentList}.
-	 * @param ctx the parse tree
-	 */
-	void enterArgumentList(cParser.ArgumentListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link cParser#argumentList}.
-	 * @param ctx the parse tree
-	 */
-	void exitArgumentList(cParser.ArgumentListContext ctx);
+	void exitArgumentExpressionList(cParser.ArgumentExpressionListContext ctx);
 }

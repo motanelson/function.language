@@ -4,37 +4,74 @@ grammar c;
 // Entrada
 // ==========================
 compilationUnit
-    : (declaration | functionDefinition)* EOF
+    : externalDeclaration* EOF
+    ;
+
+externalDeclaration
+    : functionDefinition
+    | declaration
+    ;
+
+// ==========================
+// Tipos
+// ==========================
+typeSpecifier
+    : 'int'
+    | 'float'
+    | 'char'
+    | 'void'
+    | 'double'
+    | 'long'
+    | 'short'
     ;
 
 // ==========================
 // Declarações
 // ==========================
 declaration
-    : typeSpecifier initDeclarator ';'
+    : typeSpecifier initDeclaratorList ';'
+    ;
+
+initDeclaratorList
+    : initDeclarator (',' initDeclarator)*
     ;
 
 initDeclarator
-    : declarator ('=' expression)?
+    : declarator ('=' initializer)?
     ;
 
-typeSpecifier
-    : 'int' | 'float' | 'char' | 'void'
+initializer
+    : assignmentExpression
     ;
 
+// ==========================
+// Declarators (suporte a ponteiros e arrays)
+// ==========================
 declarator
+    : pointer? directDeclarator
+    ;
+
+pointer
+    : '*' pointer?
+    ;
+
+directDeclarator
     : Identifier
+    | '(' declarator ')'
+    | directDeclarator '[' Constant? ']'
+    | directDeclarator '(' parameterList? ')'
     ;
 
 // ==========================
 // Funções
 // ==========================
 functionDefinition
-    : typeSpecifier Identifier '(' parameterList? ')' compoundStatement
+    : typeSpecifier declarator compoundStatement
     ;
 
 parameterList
     : parameter (',' parameter)*
+    | 'void'
     ;
 
 parameter
@@ -45,12 +82,16 @@ parameter
 // Statements
 // ==========================
 compoundStatement
-    : '{' statement* '}'
+    : '{' blockItem* '}'
+    ;
+
+blockItem
+    : declaration
+    | statement
     ;
 
 statement
-    : declaration
-    | expressionStatement
+    : expressionStatement
     | compoundStatement
     | selectionStatement
     | iterationStatement
@@ -67,7 +108,7 @@ selectionStatement
 
 iterationStatement
     : 'while' '(' expression ')' statement
-    | 'for' '(' expression? ';' expression? ';' expression? ')' statement
+    | 'for' '(' (declaration | expression?) ';' expression? ';' expression? ')' statement
     ;
 
 jumpStatement
@@ -75,14 +116,19 @@ jumpStatement
     ;
 
 // ==========================
-// Expressões
+// Expressões (com precedência correta)
 // ==========================
 expression
-    : assignmentExpression
+    : assignmentExpression (',' assignmentExpression)*
     ;
 
 assignmentExpression
-    : logicalOrExpression ('=' assignmentExpression)?
+    : unaryExpression assignmentOperator assignmentExpression
+    | logicalOrExpression
+    ;
+
+assignmentOperator
+    : '=' | '+=' | '-=' | '*=' | '/='
     ;
 
 logicalOrExpression
@@ -106,26 +152,33 @@ additiveExpression
     ;
 
 multiplicativeExpression
-    : unaryExpression (('*' | '/') unaryExpression)*
+    : unaryExpression (('*' | '/' | '%') unaryExpression)*
     ;
 
 unaryExpression
-    : ('+' | '-' | '!')? primaryExpression
+    : postfixExpression
+    | ('++' | '--') unaryExpression
+    | ('+' | '-' | '!') unaryExpression
+    ;
+
+postfixExpression
+    : primaryExpression
+      (   '[' expression ']'
+        | '(' argumentExpressionList? ')'
+        | '++'
+        | '--'
+      )*
     ;
 
 primaryExpression
-    : functionCall
-    | Identifier
+    : Identifier
     | Constant
+    | StringLiteral
     | '(' expression ')'
     ;
 
-functionCall
-    : Identifier '(' argumentList? ')'
-    ;
-
-argumentList
-    : expression (',' expression)*
+argumentExpressionList
+    : assignmentExpression (',' assignmentExpression)*
     ;
 
 // ==========================
@@ -146,15 +199,21 @@ IntegerConstant
     ;
 
 FloatingConstant
-    : [0-9]+ '.' [0-9]* (('e' | 'E') ('+' | '-')? [0-9]+)?
+    : [0-9]+ '.' [0-9]* (('e'|'E') ('+'|'-')? [0-9]+)?
     ;
 
 CharacterConstant
-    : '\'' . '\''
+    : '\'' (~['\\\r\n] | '\\' .) '\''
     ;
 
+StringLiteral
+    : '"' (~["\\\r\n] | '\\' .)* '"'
+    ;
+
+DOT : '.' ;
+
 // ==========================
-// Comentários e espaços
+// Comentários
 // ==========================
 LineComment
     : '//' ~[\r\n]* -> skip

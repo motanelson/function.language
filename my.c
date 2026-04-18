@@ -1,9 +1,8 @@
-int add(int a,int b){
-    return a+b;
-
-}
 int main(){
-    int a=0;
-    a=add(1,1);
+    int a = 5;
+    int b = 3;
+
+    printf("Resultado: %d\n", a * b);
+
     return 0;
 }
